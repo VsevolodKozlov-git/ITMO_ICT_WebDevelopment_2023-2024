@@ -1,0 +1,16 @@
+site_name: Lab1
+docs_dir: docs
+
+nav:
+  - Home: index.md
+  - ex1: ex1.md
+  - ex2: ex2.md
+  - ex3: ex3.md
+  - ex4: ex4.md
+  - ex5: ex5.md
+
+theme:
+  name: "material"
+
+plugins:
+  - mkdocstrings
