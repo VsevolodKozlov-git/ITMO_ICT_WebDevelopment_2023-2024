@@ -5,7 +5,7 @@ import email.parser
 import email.message
 from urllib.parse import  parse_qs, urlparse
 from dataclasses import dataclass
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 
 
 
@@ -92,7 +92,7 @@ class MyHTTPServer:
         self._host = host
         self._port = port
         self._server_name = server_name
-        self.marks: List[Mark] = [Mark('Math', 5), Mark('Programming', 4)]
+        self.marks: Dict[str, List[int]] = {"Math": [5], 'Programming': [4]}
         """Dict to imitate database. Already packed with some values"""
 
 
@@ -187,17 +187,33 @@ class MyHTTPServer:
             raise Exception('Invalid mark')
         mark = int(mark)
         subject = parameters['subject'][0]
-        self.marks.append(Mark(subject, mark))
+
+        if subject not in self.marks:
+            self.marks[subject] = []
+        self.marks[subject].append(mark)
         return Response(204, 'Created')
 
     def handle_get_mark(self, request: Request):
         content_type = 'text/html; charset=utf-8'
-        body = '<html><head></head><body>'
+        body = '<html><head>'
+        body += """<style>
+        table {
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            text-align: center;
+            padding: 8px;
+        }
+    </style>"""
+        body += '</head><body>'
         body += '<table>'
-        for mark in self.marks:
+        for subject in self.marks:
             body += '<tr>'
-            body += f'<td>{mark.subject}</td>'
-            body += f'<td>{mark.mark}</td>'
+            body += f'<td>{subject}</td>'
+            for mark in self.marks[subject]:
+                body += f'<td>{mark}</td>'
             body += '</tr>'
         body += '</table>'
         body += '</body></html>'
@@ -224,7 +240,6 @@ class MyHTTPServer:
         headers = [('Content-Type', 'text/html; charset=utf-8'),
                    ('Content-Length', len(body))]
         return Response(200, 'OK', headers, body)
-
 
     def send_response(self, conn: socket.socket, resp: Response):
         """Convert Response class instance into appropriate test and sends it via socket"""
