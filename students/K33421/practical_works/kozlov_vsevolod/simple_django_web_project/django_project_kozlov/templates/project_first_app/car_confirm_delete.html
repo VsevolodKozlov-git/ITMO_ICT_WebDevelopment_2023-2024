@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sure delete car?</title>
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Yes">
+        <a href="url 'project_first_app:owner_list'">Cancel</a>
+    </form>
+</body>
+</html>

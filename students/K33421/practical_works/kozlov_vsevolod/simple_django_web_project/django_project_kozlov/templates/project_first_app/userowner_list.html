@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Owner List</title>
+</head>
+<body>
+    {% for obj in object_list %}
+        <h2>{{ obj.username}}</h2>
+        <p>
+            <a href="{{ obj.get_absolute_url }}">To owner</a>
+        </p>
+    {% endfor %}
+</body>
+</html>

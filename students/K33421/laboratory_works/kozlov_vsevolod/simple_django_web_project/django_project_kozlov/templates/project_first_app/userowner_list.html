@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Owner List</title>
+</head>
+<body>
+    {% for obj in object_list %}
+        <h2>{{ obj.pk }}</h2>
+        <ul>
+            <li>{{ obj.name }}</li>
+            <li>{{ obj.surname }}</li>
+            <li><a href="{{ obj.get_absolute_url }}">To owner</a></li>
+        </ul>
+    {% endfor %}
+</body>
+</html>

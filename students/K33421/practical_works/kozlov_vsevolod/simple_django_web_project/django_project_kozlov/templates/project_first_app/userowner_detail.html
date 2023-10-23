@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Owner Info</title>
+</head>
+<body>
+<h2>Information about {{ object.username }}</h2>
+<ul>
+    {% if object.firstname %}
+        <li>firstname: {{ object.firstname }}</li>
+    {% endif %}
+
+    {% if object.lastname %}
+        <li>surname: {{ object.lastname }}</li>
+    {% endif %}
+
+    {% if object.email %}
+         <li>email: {{ object.email }}</li>
+    {% endif %}
+
+    {% if object.passport_number%}
+        <li>passport_number: {{ object.passport_number }}</li>
+    {% endif %}
+
+    {% if object.birth_date is not None %}
+        <li>birthe date: {{ object.birth_date }}</li>
+    {% endif %}
+
+    {% with cars=object.cars.all %}
+        {% if cars %}
+            <li>Cars:
+            <ul>
+                {% for car in object.cars.all %}
+                    <li>{{ car.serial_number }}</li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% endif %}
+    {% endwith %}
+</ul>
+</body>
+</html>
