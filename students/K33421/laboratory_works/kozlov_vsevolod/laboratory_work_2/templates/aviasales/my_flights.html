@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Flights</title>
+</head>
+<body>
+
+    {% if not user_flights %}
+        You have no flights
+    {% else %}
+        <table>
+            <tr>
+                <th>Flight number</th>
+                <th>Ticker number</th>
+                <th>Seat number</th>
+                <th>Change</th>
+                <th>Delete</th>
+            </tr>
+
+            {% for user_flight in user_flights %}
+                <tr>
+                    <td>{{ user_flight.flight.flight_number }}</td>
+                    <td>{{ user_flight.ticket_number }}</td>
+                    <td>{{ user_flight.seat_number }}</td>
+                    <td>
+                        <a href="{{ user_flight.get_update_url }}">
+                            Update
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ user_flight.get_delete_url }}">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+
+    {% endif %}
+
+</body>
+</html>

@@ -46,18 +46,24 @@ class User(AbstractUser):
 class UserFlight(models.Model):
     seat_number = models.CharField(max_length=4, blank=False)
     ticket_number = models.CharField(max_length=10, blank=False)
+    approved = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE)
 
     def clean(self):
-        required = [(self.seat_number, 'seat number'),
-                    (self.ticket_number, 'ticket number')]
+        required = [(self.seat_number, 'seat number')]
         for field, name in required:
             if not field:
                 raise ValidationError(f'{name} is empty')
 
     def __str__(self):
         return f'{self.user.get_username()} {self.flight.flight_number}'
+
+    def get_delete_url(self):
+        return reverse('aviasales:userflight_delete', kwargs={'pk': self.pk})
+
+    def get_update_url(self):
+        return reverse('aviasales:userflight_update', kwargs={'pk': self.pk})
 
 
 class Review(models.Model):

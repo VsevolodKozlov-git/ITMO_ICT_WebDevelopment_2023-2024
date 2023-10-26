@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm user flight delete</title>
+</head>
+<body>
+    <h2>Delete?</h2>
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="Yes">
+    </form>
+
+    <a href="{% url 'aviasales:my_flights' %}">Return to my flights page</a>
+</body>
+</html>
