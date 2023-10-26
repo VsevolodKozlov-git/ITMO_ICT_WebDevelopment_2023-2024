@@ -158,20 +158,21 @@ class UserFlightsReservationForm(LoginRequiredMixin, View):
 
     last_get_flight = None
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, flight_pk, *args, **kwargs):
         user = request.user
-        flight_pk = request.GET.get('flight_pk')
         flight = models.Flight.objects.get(pk=flight_pk)
         self.last_get_flight = flight
         form = self.form_class(user, flight)
         context = {'form': form}
         return render(request, self.template_path, context)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, flight_pk, *args, **kwargs):
         user = request.user
-        form = self.form_class(user, self.last_get_flight, request.POST)
+        flight = models.Flight.objects.get(pk=flight_pk)
+        form = self.form_class(user, flight, request.POST)
         if form.is_valid():
             form.save()
+            # todo сделать redirect на страницу с бронированием
             return redirect(reverse('not ready'))
         context = {'form': form}
         return render(request, self.template_path, context)

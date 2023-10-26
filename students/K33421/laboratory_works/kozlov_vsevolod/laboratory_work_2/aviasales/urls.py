@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from aviasales import views
 from aviasales.apps import AviasalesConfig
 
@@ -15,5 +15,5 @@ urlpatterns = [
     path('review_create', views.ReviewCreateView.as_view(), name='review_create'),
     path('review_list', views.ReviewListView.as_view(), name='review_list'),
     path('userflight_reservation_list', views.UserFlightsReservationList.as_view(), name='userflight_reservation_list'),
-    path(r'userflight_reservation_form/(?P<flight_pk>[0-9]+)', views.UserFlightsReservationForm.as_view(), name='userflight_reservation_form')
+    path(r'userflight_reservation_form/<int:flight_pk>', views.UserFlightsReservationForm.as_view(), name='userflight_reservation_form')
 ]
