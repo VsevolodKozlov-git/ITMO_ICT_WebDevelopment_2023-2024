@@ -5,26 +5,32 @@
     <title>Flight info</title>
 </head>
 <body>
-    <table>
-        <tr>
-            <th>Ticket number</th>
-            <th>Seat</th>
-            <th>Passenger profile</th>
-        </tr>
 
-
-        {% for user_flight in user_flights %}
+    {% if not user_flights %}
+        <h2>No approved tickets for that flight</h2>
+    {% else %}
+        <table>
             <tr>
-                <td>{{ user_flight.ticket_number }}</td>
-                <td>{{ user_flight.seat_number }}</td>
-                <td>
-                    <a href="{{ user_flight.user.get_absolute_url }}">
-                        click
-                    </a>
-                </td>
+                <th>Ticket number</th>
+                <th>Seat</th>
+                <th>Passenger profile</th>
             </tr>
-        {% endfor %}
-    </table>
+
+
+            {% for user_flight in user_flights %}
+                <tr>
+                    <td>{{ user_flight.ticket_number }}</td>
+                    <td>{{ user_flight.seat_number }}</td>
+                    <td>
+                        <a href="{{ user_flight.user.get_absolute_url }}">
+                            click
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
 
 </body>
 </html>

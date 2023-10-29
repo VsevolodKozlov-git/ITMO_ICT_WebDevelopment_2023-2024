@@ -2,6 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django.forms import fields_for_model, ModelForm
 from django import forms
+from django.forms import widgets
 from aviasales import models
 
 
@@ -9,20 +10,13 @@ user = get_user_model()
 
 
 class UserRegisterForm(UserCreationForm):
-    class RequiredUserFields:
-
-        def __init__(self):
-            self.user_form_fields = fields_for_model(user)
-
-        def get(self, field_name):
-            field = self.user_form_fields[field_name]
-            field.required = True
-            return field
-
-    r = RequiredUserFields()
-    first_name = r.get('first_name')
-    last_name = r.get('last_name')
-    passport_number = r.get('passport_number')
+    def __init__(self, *args, **kwargs):
+        super(UserRegisterForm, self).__init__(*args, **kwargs)
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
+        self.fields['passport_number'].required = True
+        self.fields['birth_date'].widget = widgets.DateInput(attrs={'type':'date',
+                                                                    'class': 'form-control'})
 
     class Meta(UserCreationForm.Meta):
         model = user
@@ -41,9 +35,6 @@ class ReviewForm(ModelForm):
         super(ReviewForm, self).__init__(*args, **kwargs)
         self.update_field_userflights_for_user(user_instance)
 
-
-
-
     class Meta:
         model = models.Review
         fields = ['user_flight', 'text', 'grade']
@@ -54,13 +45,13 @@ class ReviewForm(ModelForm):
         empty_label = ''
 
         # filter only user's userflights
-        # todo  userflight__approved=True
         userflights_set = user_instance.userflight_set.get_queryset()
+        userflights_set = userflights_set.filter(approved=True)
         if not userflights_set:
-            empty_label = 'У вас нет ни одного перелета'
+            empty_label = 'У вас нет ни одного подтвержденного перелета'
         # remove already reviewed flights
         else:
-            revieved_userflights_pk = [i.pk for i in models.Review.objects.all()]
+            revieved_userflights_pk = [i.user_flight.pk for i in models.Review.objects.all()]
             userflights_set = userflights_set.exclude(pk__in=revieved_userflights_pk)
             if not userflights_set:
                 empty_label = 'Вы оценили все перелеты'

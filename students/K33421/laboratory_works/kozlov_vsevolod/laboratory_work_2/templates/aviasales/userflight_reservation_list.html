@@ -13,9 +13,9 @@
                 <th>flight number</th>
                 <th>airline</th>
                 <th>departure place</th>
-                <th>arrival_place</th>
-                <th>departure_time</th>
-                <th>arrival_tim</th>
+                <th>arrival place</th>
+                <th>departure time</th>
+                <th>arrival time</th>
                 <th>gate</th>
                 <th>reserve</th>
             </tr>
@@ -30,15 +30,8 @@
                     <td>{{ obj.gate }}</td>
                     <td><a href="{% url 'aviasales:userflight_reservation_form' flight_pk=obj.pk %}">reserve</a></td>
                 </tr>
-
             {% endfor %}
         </table>
-
-
     {% endif %}
-
-
-
-
 </body>
 </html>
