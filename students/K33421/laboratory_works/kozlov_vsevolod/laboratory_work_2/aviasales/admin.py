@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from aviasales import models
 
 # Register your models here.

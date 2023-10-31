@@ -1,14 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>User Flight Form</title>
-</head>
-<body>
+{% extends 'aviasales/extend/navbar.html' %}
+{% block title %}
+    Update flight
+{% endblock %}
+
+{% block body %}
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Send">
     </form>
-</body>
-</html>
+
+{% endblock %}
+
+
+

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>My Flights</title>
-</head>
-<body>
+<!DOCTYPE html>
+{% extends 'aviasales/extend/navbar.html' %}
+{% block title %}
+    My flights
+{% endblock %}
 
+{% block body %}
     {% if not user_flights %}
         You have no flights
     {% else %}
@@ -38,6 +38,5 @@
         </table>
 
     {% endif %}
+{% endblock %}
 
-</body>
-</html>

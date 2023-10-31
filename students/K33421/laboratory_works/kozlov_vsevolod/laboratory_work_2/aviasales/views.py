@@ -1,22 +1,30 @@
-from django.shortcuts import render, redirect
-from django.views import View
-from django.views.generic import DetailView, UpdateView, DeleteView, ListView
 from django.contrib.auth import get_user_model
-from aviasales import models, forms
-from aviasales.apps import AviasalesConfig
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
+from django.views import View
+from django.views.generic import DetailView, UpdateView, DeleteView, ListView
+
+from aviasales import models, forms
+from aviasales.apps import AviasalesConfig
 
 appname = AviasalesConfig.name
 # Create your views here.
 
 user_model = get_user_model()
 
+
 def get_template_path(name):
     return f'{appname}/{name}.html'
+
+
+class MainPage(View):
+    template_path = get_template_path('root')
+
+    def get(self, request):
+        return render(request, self.template_path)
 
 
 class UserRegistration(View):
@@ -40,7 +48,6 @@ class UserRegistration(View):
 class UserDetail(DetailView):
     model = user_model
     template_name = 'aviasales/user_detail.html'
-
 
 
 class FlightInfo(View):
@@ -69,12 +76,9 @@ class UserFlightsReservationForm(LoginRequiredMixin, View):
     template_path = get_template_path('userflight_reservation_form')
     form_class = forms.ReservationForm
 
-    last_get_flight = None
-
     def get(self, request, flight_pk, *args, **kwargs):
         user = request.user
         flight = models.Flight.objects.get(pk=flight_pk)
-        self.last_get_flight = flight
         form = self.form_class(user, flight)
         context = {'form': form}
         return render(request, self.template_path, context)
@@ -91,7 +95,6 @@ class UserFlightsReservationForm(LoginRequiredMixin, View):
 
 
 class MyFlights(LoginRequiredMixin, View):
-
     template_path = get_template_path('my_flights')
 
     def get(self, request):
@@ -105,6 +108,7 @@ class UserFlightUpdateView(UserPassesTestMixin, UpdateView):
     model = models.UserFlight
     fields = ['seat_number']
     success_url = reverse_lazy('aviasales:my_flights')
+
     def test_func(self):
         userflight_url_pk = self.kwargs[self.pk_url_kwarg]
         user = self.request.user
@@ -128,6 +132,7 @@ class UserFlightDeleteView(UserPassesTestMixin, DeleteView):
         except models.UserFlight.DoesNotExist:
             return False
 
+
 class ReviewCreateView(LoginRequiredMixin, View):
     template_path = get_template_path('review_form')
     form_class = forms.ReviewForm
@@ -150,9 +155,6 @@ class ReviewCreateView(LoginRequiredMixin, View):
 
 class ReviewListView(ListView):
     model = models.Review
-
-
-
 
 
 @login_required()

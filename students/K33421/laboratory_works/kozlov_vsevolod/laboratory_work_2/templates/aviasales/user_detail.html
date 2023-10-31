@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ object.username }} profile</title>
-</head>
-<body>
+{% extends 'aviasales/extend/navbar.html' %}
+{% block title %}
+    User Detail
+{% endblock %}
+
+{% block body %}
     <h1>{{ object.username }}</h1>
     <ul>
         <li>Фамилия имя: {{ object.first_name }} {{ object.last_name }}</li>
@@ -14,10 +13,13 @@
         {% if object.birth_date %}
             <li>Дата рождения: {{ object.birth_date }}</li>
         {% endif %}
-        {% if object.passport_number is not None%}
+        {% if object.passport_number is not None %}
             <li>Номер паспорта: {{ object.passport_number }}</li>
         {% endif %}
     </ul>
+{% endblock %}
 
-</body>
-</html>
+
+
+
+

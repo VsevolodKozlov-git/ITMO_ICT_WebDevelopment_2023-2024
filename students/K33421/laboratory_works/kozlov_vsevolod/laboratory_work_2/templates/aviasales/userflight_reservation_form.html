@@ -1,14 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Reservation form</title>
-</head>
-<body>
-     <form method="POST">
+{% extends 'aviasales/extend/navbar.html' %}
+{% block title %}
+    Reservation form
+{% endblock %}
+
+{% block body %}
+    <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Send">
-     </form>
-</body>
-</html>
+    </form>
+{% endblock %}
+
+
+

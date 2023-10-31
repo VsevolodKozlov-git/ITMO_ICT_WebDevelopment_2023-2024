@@ -1,19 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Review list</title>
-</head>
-<body>
-        {% for obj in object_list %}
-            <h2><a href="{{ obj.user_flight.user.get_absolute_url }}">
-                {{  obj.user_flight.user.get_username }}
-            </a></h2>
-            <p>Flight number: {{ obj.user_flight.flight.flight_number }}</p>
-            <p>Grade:{{ obj.grade }}</p>
-            <p>Review:{{ obj.text }}</p>
-        {% empty %}
-            <p>no reviews</p>
-        {% endfor %}
-</body>
-</html>
+{% extends 'aviasales/extend/navbar.html' %}
+{% block title %}
+    Review List
+{% endblock %}
+
+{% block body %}
+    {% for obj in object_list %}
+        <h2><a href="{{ obj.user_flight.user.get_absolute_url }}">
+            {{ obj.user_flight.user.get_username }}
+        </a></h2>
+        <p>Flight number: {{ obj.user_flight.flight.flight_number }}</p>
+        <p>Grade:{{ obj.grade }}</p>
+        <p>Review:{{ obj.text }}</p>
+    {% empty %}
+        <p>no reviews</p>
+    {% endfor %}
+
+{% endblock %}
+
+

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Flight info</title>
-</head>
-<body>
 
+
+{% extends 'aviasales/extend/navbar.html' %}
+{% block title %}
+    Flight Info
+{% endblock %}
+
+{% block body %}
     {% if not user_flights %}
         <h2>No approved tickets for that flight</h2>
     {% else %}
@@ -30,7 +31,4 @@
             {% endfor %}
         </table>
     {% endif %}
-
-
-</body>
-</html>
+{% endblock %}

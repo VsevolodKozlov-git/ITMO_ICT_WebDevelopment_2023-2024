@@ -1,10 +1,10 @@
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import get_user_model
-from django.forms import fields_for_model, ModelForm
 from django import forms
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
+from django.forms import ModelForm
 from django.forms import widgets
-from aviasales import models
 
+from aviasales import models
 
 user = get_user_model()
 
@@ -12,11 +12,11 @@ user = get_user_model()
 class UserRegisterForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(UserRegisterForm, self).__init__(*args, **kwargs)
+        self.fields['passport_number'].required = True
+        self.fields['birth_date'].widget = widgets.DateInput(attrs={'type': 'date',
+                                                                    'class': 'form-control'})
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
-        self.fields['passport_number'].required = True
-        self.fields['birth_date'].widget = widgets.DateInput(attrs={'type':'date',
-                                                                    'class': 'form-control'})
 
     class Meta(UserCreationForm.Meta):
         model = user
@@ -38,7 +38,6 @@ class ReviewForm(ModelForm):
     class Meta:
         model = models.Review
         fields = ['user_flight', 'text', 'grade']
-
 
     def update_field_userflights_for_user(self, user_instance):
         # default value
@@ -71,7 +70,6 @@ class ReservationForm(ModelForm):
         flight_field = self.fields['flight']
         flight_field.initial = flight_instance
         flight_field.widget = flight_field.hidden_widget()
-
 
     class Meta:
         model = models.UserFlight

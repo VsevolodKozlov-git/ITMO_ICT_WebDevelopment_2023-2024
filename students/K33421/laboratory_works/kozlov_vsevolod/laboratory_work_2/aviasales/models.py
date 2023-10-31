@@ -1,7 +1,7 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.core.exceptions import ValidationError
 from django.core import validators
+from django.core.exceptions import ValidationError
+from django.db import models
 from django.urls import reverse
 
 
@@ -18,7 +18,7 @@ class Flight(models.Model):
         required = [(self.flight_number, 'flight number'),
                     (self.airline, 'airline'),
                     (self.departure_place, 'departure place'),
-                    (self.arrival_place,  'arrival place')]
+                    (self.arrival_place, 'arrival place')]
 
         for field, name in required:
             if not field:
@@ -74,4 +74,3 @@ class Review(models.Model):
 
     def __str__(self):
         return f'{self.user_flight}'
-

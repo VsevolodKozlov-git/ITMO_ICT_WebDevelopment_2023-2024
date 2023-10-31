@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Flight reservation</title>
-</head>
-<body>
+{% extends 'aviasales/extend/navbar.html' %}
+{% block title %}
+    Reservation list
+{% endblock %}
+
+{% block body %}
     {% if not object_list %}
-         <p>No flights you can reserve</p>
+        <p>No flights you can reserve</p>
     {% else %}
         <table>
             <tr>
@@ -33,5 +32,8 @@
             {% endfor %}
         </table>
     {% endif %}
-</body>
-</html>
+{% endblock %}
+
+
+
+
