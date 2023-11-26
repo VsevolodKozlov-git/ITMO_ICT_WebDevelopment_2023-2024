@@ -15,3 +15,5 @@ nav:
       - lab2/views.md
       - lab2/forms.md
       - lab2/urls.md
+  - "Лабораторная работа 3":
+      - lab3/practice3_1.md
