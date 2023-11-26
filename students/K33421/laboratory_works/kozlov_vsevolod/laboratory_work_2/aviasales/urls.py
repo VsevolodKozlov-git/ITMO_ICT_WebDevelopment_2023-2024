@@ -15,8 +15,9 @@ urlpatterns = [
     path('userflight_update/<int:pk>', views.UserFlightUpdateView.as_view(), name='userflight_update'),
     path('userflight_delete/<int:pk>', views.UserFlightDeleteView.as_view(), name='userflight_delete'),
     path('review_create', views.ReviewCreateView.as_view(), name='review_create'),
-    path('review_list', views.ReviewListView.as_view(), name='review_list'),
     path('userflight_reservation_list', views.UserFlightsReservationList.as_view(), name='userflight_reservation_list'),
     path(r'userflight_reservation_form/<int:flight_pk>', views.UserFlightsReservationForm.as_view(),
-         name='userflight_reservation_form')
+         name='userflight_reservation_form'),
+    path('flight_review_select', views.FlightReviewSelect.as_view(), name='flight_review_select'),
+    path('flight_review_list/<int:flight_pk>', views.FlightReviewList.as_view(), name='flight_review_list')
 ]

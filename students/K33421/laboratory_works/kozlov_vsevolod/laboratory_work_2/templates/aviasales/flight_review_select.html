@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% extends 'aviasales/extend/navbar.html' %}
+{% block title %}
+    Select flight review
+{% endblock %}
+
+{% block body %}
+    {% if not flights %}
+        <p>No Flights with reviews</p>
+    {% else %}
+        <table>
+            <tr>
+                <th>flight number</th>
+                <th>airline</th>
+                <th>departure place</th>
+                <th>arrival place</th>
+                <th>departure time</th>
+                <th>arrival time</th>
+                <th>Reviews</th>
+            </tr>
+            {% for flight in flights %}
+                <tr>
+                    <td>{{ flight.flight_number }}</td>
+                    <td>{{ flight.airline }}</td>
+                    <td>{{ flight.departure_place }}</td>
+                    <td>{{ flight.arrival_place }}</td>
+                    <td>{{ flight.departure_time }}</td>
+                    <td>{{ flight.arrival_time }}</td>
+                    <td><a href="{{ flight.get_review_url }}">Reviews</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+{% endblock %}

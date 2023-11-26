@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% extends 'aviasales/extend/navbar.html' %}
+{% block title %}
+    Flight review list
+{% endblock %}
+
+{% block body %}
+    {% for review in reviews %}
+        <h3><a href="{{ review.user_flight.user.get_absolute_url }}">
+            {{ review.user_flight.user.get_username }}
+        </a></h3>
+        <p>Grade:{{ review.grade }}</p>
+        <p>Review:{{ review.text }}</p>
+    {% empty %}
+        <p>no reviews</p>
+    {% endfor %}
+{% endblock %}

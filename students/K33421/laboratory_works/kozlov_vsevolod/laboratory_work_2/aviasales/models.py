@@ -27,6 +27,9 @@ class Flight(models.Model):
         if self.departure_time >= self.arrival_time:
             raise ValidationError(f'departure time larger than arrival time')
 
+    def get_review_url(self):
+        return reverse('aviasales:flight_review_list', kwargs={'flight_pk': self.pk})
+
     def __str__(self):
         return self.flight_number
 

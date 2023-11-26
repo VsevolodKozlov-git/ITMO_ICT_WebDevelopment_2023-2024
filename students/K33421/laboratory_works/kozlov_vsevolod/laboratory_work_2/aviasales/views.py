@@ -157,6 +157,22 @@ class ReviewListView(ListView):
     model = models.Review
 
 
+class FlightReviewSelect(View):
+    template_path = get_template_path('flight_review_select')
+
+    def get(self, request):
+        flights = models.Flight.objects.all()
+        return render(request, self.template_path, {'flights': flights})
+
+
+class FlightReviewList(View):
+    template_path = get_template_path('flight_review_list')
+
+    def get(self, request, flight_pk):
+        reviews = models.Review.objects.filter(user_flight__flight=flight_pk)
+        return render(request, self.template_path, {'reviews': reviews})
+
+
 @login_required()
 def auth_test(request):
     user = request.user
