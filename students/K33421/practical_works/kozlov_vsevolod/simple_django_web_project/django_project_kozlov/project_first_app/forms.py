@@ -32,6 +32,7 @@ class OwnerCreationForm(UserCreationForm):
             'first_name',
             'last_name',
             'passport_number',
+            'birth_date',
             'nationality',
             'address',
             'password1',
