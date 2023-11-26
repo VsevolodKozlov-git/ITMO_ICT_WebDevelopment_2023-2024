@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'laboratory_work_2.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django_lab2',
+        'NAME': 'django_lab3',
         'USER': 'postgres',
         'PASSWORD': '786811',
         'HOST': 'localhost',
