@@ -24,9 +24,25 @@ class BookSerializer(serializers.ModelSerializer):
         exclude = ['rooms', 'id']
 
 
+class BookCreateSerializer(serializers.ModelSerializer):
+    authors = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=models.Author.objects.all()
+    )
+    class Meta:
+        model = models.Book
+        exclude = ['rooms', 'id']
+
+
 class BookInstanceSerializer(serializers.ModelSerializer):
     book = BookSerializer(many=False)
 
+    class Meta:
+        model = models.BookInstance
+        exclude = ['id']
+
+
+class BookInstanceCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.BookInstance
         exclude = ['id']
@@ -47,3 +63,8 @@ class StatisticsEducationSerializer(serializers.Serializer):
 class StatisticsAgeSerializer(serializers.Serializer):
     under_20 = serializers.FloatField()
     after_20 = serializers.FloatField()
+
+
+class StatSerializer(serializers.Serializer):
+    books_taken = serializers.IntegerField()
+    new_readers = serializers.IntegerField()

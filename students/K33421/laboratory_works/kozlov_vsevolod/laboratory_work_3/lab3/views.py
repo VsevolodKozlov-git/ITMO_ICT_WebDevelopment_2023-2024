@@ -5,6 +5,7 @@ from django.db import models as dj_models
 from scripts import create_db_data
 from datetime import datetime,timedelta
 
+
 class InitDataView(views.APIView):
     def get(self, request):
         create_db_data.run()
@@ -57,6 +58,7 @@ class ReaderRareBook(generics.ListAPIView):
         rare_readers = models.Reader.objects.filter(id__in=rare_reader_ids)
         return rare_readers
 
+
 class ReaderBookMonthAgoApi(generics.ListAPIView):
     serializer_class = serializers.ReaderSerializer
 
@@ -70,6 +72,7 @@ class ReaderBookMonthAgoApi(generics.ListAPIView):
         reader_ids = set(reader_history.values_list('reader', flat=True))
         readers = models.Reader.objects.filter(id__in=reader_ids)
         return readers
+
 
 class StatisticsEducationApiView(views.APIView):
     serializer_class = serializers.StatisticsEducationSerializer
@@ -121,7 +124,7 @@ class StatisticsAgeApiView(views.APIView):
         return age_stat
 
 
-class ReaderNewApiView(generics.CreateAPIView):
+class ReaderCreateApiView(generics.CreateAPIView):
     serializer_class = serializers.ReaderSerializer
     queryset = models.Reader.objects.all()
 
@@ -132,10 +135,10 @@ class BookInstanceRemoveApiView(generics.RetrieveDestroyAPIView):
 
 
 class BookInstanceCreateView(generics.CreateAPIView):
-    serializer_class = serializers.BookInstanceSerializer
+    serializer_class = serializers.BookInstanceCreateSerializer
 
 
-# class BookCreateView(generics.CreateAPIView):
-#     serializer_class =
+class BookCreateView(generics.CreateAPIView):
+    serializer_class = serializers.BookCreateSerializer
 
 
