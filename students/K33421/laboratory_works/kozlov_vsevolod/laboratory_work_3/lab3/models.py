@@ -7,10 +7,6 @@ class UserModel(AbstractUser):
 
 
 
-class TestModel(models.Model):
-    title = models.CharField(max_length=100)
-
-
 class Publisher(models.Model):
     name = models.CharField(max_length=100)
 

@@ -4,8 +4,7 @@ from lab3 import views
 app_name = 'lab3'
 
 urlpatterns = [
-    path('test_api_view/', views.TestModelAPIView.as_view(), name='test_api_view'),
-    # path('add_model_data/', views.InitDataView.as_view()),
+     # path('add_model_data/', views.InitDataView.as_view()),
     path('reader/books/<int:reader_pk>', views.ReaderBooksApiView.as_view(), name='reader_books'),
     path('reader/outdated', views.OutdatedReadersApiView.as_view(), name='reader_outdated'),
     path('reader/rare_books', views.ReaderRareBook.as_view(), name='reader_rare_books'),

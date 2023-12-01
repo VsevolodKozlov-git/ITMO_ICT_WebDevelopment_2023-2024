@@ -7,6 +7,8 @@ from datetime import datetime,timedelta
 from abc import abstractmethod
 
 
+
+
 class ApiViewSingleObject(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         _object = self.get_object_for_get()
@@ -23,12 +25,6 @@ class InitDataView(views.APIView):
     def get(self, request):
         create_db_data.run()
         return Response({'date': []}, status=200)
-
-
-class TestModelAPIView(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
-    serializer_class = serializers.TestModelSerializer
-    queryset = models.TestModel.objects.all()
 
 
 class ReaderBooksApiView(generics.ListAPIView):
