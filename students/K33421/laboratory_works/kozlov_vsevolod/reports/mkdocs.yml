@@ -17,3 +17,8 @@ nav:
       - lab2/urls.md
   - "Лабораторная работа 3":
       - lab3/practice3_1.md
+      - lab3/views.md
+      - lab3/filters.md
+      - lab3/models.md
+      - lab3/serializers.md
+      - lab3/error.md

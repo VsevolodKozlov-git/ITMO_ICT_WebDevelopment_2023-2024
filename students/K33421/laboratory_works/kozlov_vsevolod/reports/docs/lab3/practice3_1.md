@@ -1,8 +1,11 @@
-# Практика 3.1 сырая
+# Практика 3.1 
 
 ### Упражнение 1
 
-'''python 
+Напишите запрос на создание 6-7 новых автовладельцев и 5-6 автомобилей, каждому автовладельцу назначьте удостоверение и от 1 до 3 автомобилей. Задание можете выполнить либо в интерактивном режиме интерпретатора, либо в отдельном python-файле. Результатом должны стать запросы и отображение созданных объектов. 
+
+Код:
+```python 
 from project_first_app.models import  Car, UserOwner, CarOwn, OwnerLicence 
 
 
@@ -22,7 +25,7 @@ c5 = Car(id=5, serial_number='AA005A', model='ford', color='white')
 c5.save()
 c6 = Car(id=6, serial_number='AA006A', model='ford', color='orange')
 
-1 = user_model(username='vasy001', first_name='Vasy', last_name='Pupkin', passport_number='00001000001')
+u1 = user_model(username='vasy001', first_name='Vasy', last_name='Pupkin', passport_number='00001000001')
 u1.save()
 u2 = user_model(username='vasy002', first_name='Ivan', last_name='Kotov', passport_number='00001000002')
 u2.save()
@@ -54,10 +57,10 @@ for owner, car, start_date, end_date in car_own_list:
 
 for i, user in enumerate([u1, u2, u3, u4, u5, u6]):
     OwnerLicence(owner=user, Licence_number=f'000{i}', licence_type='default', issue_date='2022-11-01').save()
-'''
+```
 
-
-'''
+Результат:
+```python
 Car.objects.all()
 <QuerySet [<Car: AA001A>, <Car: AA002A>, <Car: AA003A>, <Car: AA004A>, <Car: AA005A>]>
 
@@ -77,22 +80,29 @@ CarOwn.objects.all()
 <CarOwn: vasy004 AA004A 2022-10-31 2022-11-03>, 
 <CarOwn: vasy005 AA004A 2022-11-03 2022-11-09>,
 <CarOwn: vasy005 AA005A 2022-10-31 2022-11-03>]>
-'''
+```
 
 
 ### Задание 2
 
 Выведете все машины марки “Toyota” (или любой другой марки, которая у вас есть)
+```python
 Car.objects.filter(model='ford')
+
 <QuerySet [<Car: AA004A>, <Car: AA005A>]>
+```
+
 
 
 Найти всех водителей с именем “Олег” (или любым другим именем на ваше усмотрение)
+```python
 UserOwner.objects.filter(first_name='Vasy')
-<QuerySet [<UserOwner: vasy001>, <UserOwner: vasy003>, <UserOwner: vasy004>]>
 
+<QuerySet [<UserOwner: vasy001>, <UserOwner: vasy003>, <UserOwner: vasy004>]>
+```
 
 Взяв любого случайного владельца получить его id, и по этому id получить экземпляр удостоверения в виде объекта модели (можно в 2 запроса)
+```python
 from random import choice
 rand_user = choice(user_model.objects.all())
 _id = rand_user.id
@@ -100,33 +110,50 @@ licence = rand_user.owner_licence.get()
 licence
 
 <OwnerLicence: vasy003 0002>
+```
+
 
 
 Вывести всех владельцев красных машин (или любого другого цвета, который у вас присутствует)
-
+```python
 UserOwner.objects.filter(owner_car__car__color='black')
 UserOwner.objects.filter(cars__color='black')
+
 <QuerySet [<UserOwner: vasy001>, <UserOwner: vasy002>, <UserOwner: vasy004>, <UserOwner: vasy005>]>
+```
+
 
 
 Найти всех владельцев, чей год владения машиной начинается с 2010 (или любой другой год, который присутствует у вас в базе)
+```python
 UserOwner.objects.filter(owner_car__start_date__year='2022').distinct()
+
 <QuerySet [<UserOwner: vasy001>, <UserOwner: vasy002>, <UserOwner: vasy003>, <UserOwner: vasy004>, <UserOwner: vasy005>]>
+```
+
 
 
 ### Задание 3
+Вывод даты выдачи самого старшего водительского удостоверения
 
+```python
 OwnerLicence.objects.aggregate(max_issue_date = models.Max('issue_date'))
 {'max_issue_date': datetime.date(2022, 11, 1)}
+```
 
+
+Укажите самую позднюю дату владения машиной, имеющую какую-то из существующих моделей в вашей базе
+```python
 CarOwn.objects.aggregate(latest_start_date=models.Max('start_date'))
 {'latest_start_date': datetime.datetime(2022, 11, 3, 21, 0, tzinfo=datetime.timezone.utc)}
+```
 
-
-
+Выведите количество машин для каждого водителя
+```python
 count_by_user = UserOwner.objects.annotate(count=models.Count('owner_car'))
 for user_count in count_by_user:
     print(user_count.username, user_count.count)
+    
 vsevolod026 0
 vasy001 2
 vasy002 2
@@ -135,13 +162,20 @@ vasy004 2
 vasy005 2
 vasy006 0
 
+```
 
+Подсчитайте количество машин каждой марки
+```python
 count_by_model = Car.objects.values('model').annotate(count=models.Count('id'))
 for model_counter in count_by_model:
     print(model_counter['model'], model_counter['count'])
     
 ford 2
 toyota 3
+```
 
+Отсортируйте всех автовладельцев по дате выдачи удостоверения 
+```python
 OwnerLicence.objects.order_by('issue_date')
 <QuerySet [<OwnerLicence: vasy001 0000>, <OwnerLicence: vasy002 0001>, <OwnerLicence: vasy003 0002>, <OwnerLicence: vasy004 0003>, <OwnerLicence: vasy005 0004>, <OwnerLicence: vasy006 0005>]>
+```
