@@ -22,3 +22,4 @@ urlpatterns = [
     path('auth/', include("djoser.urls")),
     path('auth/', include('djoser.urls.authtoken'))
 ]
+"3f93d62046513319ea6c9769da8106e062f0ff92"

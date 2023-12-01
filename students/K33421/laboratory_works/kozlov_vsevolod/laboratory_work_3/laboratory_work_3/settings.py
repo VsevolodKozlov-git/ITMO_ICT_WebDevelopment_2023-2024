@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     # for auth
     'rest_framework.authtoken',
     'djoser',
+    #filter
+    'django_filters',
     # main app
     'lab3.apps.Lab3Config'
 ]
@@ -138,7 +140,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
-    )
+    ),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
 DJOSER = {

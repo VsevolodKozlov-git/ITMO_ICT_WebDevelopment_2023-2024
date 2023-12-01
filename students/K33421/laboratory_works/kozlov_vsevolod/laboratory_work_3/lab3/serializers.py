@@ -60,11 +60,15 @@ class StatisticsEducationSerializer(serializers.Serializer):
     middle = serializers.FloatField()
     beginner = serializers.FloatField()
 
+
 class StatisticsAgeSerializer(serializers.Serializer):
     under_20 = serializers.FloatField()
     after_20 = serializers.FloatField()
 
 
-class StatSerializer(serializers.Serializer):
+class StatisticsSerializer(serializers.Serializer):
     books_taken = serializers.IntegerField()
     new_readers = serializers.IntegerField()
+
+
+

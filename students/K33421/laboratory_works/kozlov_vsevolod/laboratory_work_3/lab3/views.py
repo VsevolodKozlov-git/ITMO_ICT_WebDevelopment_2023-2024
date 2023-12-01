@@ -1,9 +1,22 @@
 from rest_framework import generics, permissions, views, exceptions
 from rest_framework.response import Response
-from lab3 import serializers, models
+from lab3 import serializers, models, filters
 from django.db import models as dj_models
 from scripts import create_db_data
 from datetime import datetime,timedelta
+from abc import abstractmethod
+
+
+class ApiViewSingleObject(generics.GenericAPIView):
+    def get(self, request, *args, **kwargs):
+        _object = self.get_object_for_get()
+        serializer = self.get_serializer(_object, many=False)
+        return Response(serializer.data)
+
+    @abstractmethod
+    def get_object_for_get(self):
+        raise NotImplemented('You must implement get_object_for_get')
+
 
 
 class InitDataView(views.APIView):
@@ -74,16 +87,14 @@ class ReaderBookMonthAgoApi(generics.ListAPIView):
         return readers
 
 
-class StatisticsEducationApiView(views.APIView):
+class StatisticsEducationApiView(ApiViewSingleObject):
+    permission_classes = (permissions.IsAuthenticated,)
     serializer_class = serializers.StatisticsEducationSerializer
 
-    def get(self, request):
-        qs = self.get_queryset()
-        qs_serialized = self.serializer_class(qs, many=False)
-        return Response(qs_serialized.data, status=200)
 
-    def get_queryset(self):
-        active_qs = models.Reader.objects.filter(active=True)
+    def get_object_for_get(self):
+        qs = models.Reader.objects.all()
+        active_qs = qs.filter(active=True)
         active_users = len(active_qs)
         edu_stat_list = active_qs.values('education').annotate(cnt=dj_models.Count('id'))
         edu_code_to_title = dict(models.Reader.education_types)
@@ -96,16 +107,13 @@ class StatisticsEducationApiView(views.APIView):
         return res
 
 
-class StatisticsAgeApiView(views.APIView):
+
+class StatisticsAgeApiView(ApiViewSingleObject):
     serializer_class = serializers.StatisticsAgeSerializer
 
-    def get(self, request):
-        qs = self.get_queryset()
-        qs_serialized = self.serializer_class(qs, many=False)
-        return Response(qs_serialized.data, status=200)
-
-    def get_queryset(self):
-        active_qs = models.Reader.objects.filter(active=True)
+    def get_object_for_get(self):
+        qs = models.Reader.objects.all()
+        active_qs = qs.filter(active=True)
         active_users = len(active_qs)
         n = datetime.now()
         birthdate_18 = datetime(year=n.year - 20, month=n.month, day=n.day)
@@ -124,6 +132,37 @@ class StatisticsAgeApiView(views.APIView):
         return age_stat
 
 
+class StatisticsLibraryApiView(ApiViewSingleObject):
+    serializer_class = serializers.StatisticsSerializer
+
+    def get_object_for_get(self):
+        qs_reader = filters.ReaderRegistrationDateRangeFilter(self.request.GET).qs
+        new_readers = qs_reader.count()
+
+        qs_books = filters.BookTakenDateRangeFilter(self.request.GET).qs
+        books_taken = qs_books.count()
+        return {'new_readers': new_readers, 'books_taken': books_taken}
+
+
+class StatisticsRoomApiView(ApiViewSingleObject):
+    serializer_class = serializers.StatisticsSerializer
+    queryset = models.Room.objects.all()
+
+    def get_object_for_get(self):
+        qs_book_taken = filters.BookTakenDateRangeFilter(
+            self.request.GET
+        ).qs
+        books_taken = qs_book_taken.count()
+        room = self.get_object()
+        qs_reader_history = room.readers_history
+        qs_reader_history = filters.RoomRegistrationDateRangeFilter(
+            self.request.GET,
+            queryset=qs_reader_history
+        ).qs
+        new_readers = qs_reader_history.count()
+        return {'books_taken': books_taken, 'new_readers': new_readers}
+
+
 class ReaderCreateApiView(generics.CreateAPIView):
     serializer_class = serializers.ReaderSerializer
     queryset = models.Reader.objects.all()
@@ -140,5 +179,3 @@ class BookInstanceCreateView(generics.CreateAPIView):
 
 class BookCreateView(generics.CreateAPIView):
     serializer_class = serializers.BookCreateSerializer
-
-

@@ -125,6 +125,7 @@ class ReaderRoomHistory(models.Model):
     room = models.ForeignKey('Room',
                              related_name='readers_history',
                              on_delete=models.RESTRICT)
+    # todo Убрать и перезапустить создание модели
     start_date = models.DateField(auto_now_add=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
 

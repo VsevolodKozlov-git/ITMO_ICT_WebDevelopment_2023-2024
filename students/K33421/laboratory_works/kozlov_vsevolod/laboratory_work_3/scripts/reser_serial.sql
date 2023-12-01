@@ -19,7 +19,9 @@ END;
 $$ LANGUAGE plpgsql;
 
 select *
-from lab3_bookinstance;
+from lab3_readerroomhistory;
+
+select * from lab3_readerbookhistory;
 
 SELECT table_name, column_name FROM information_schema.columns
                                where table_name like '%lab3%';
