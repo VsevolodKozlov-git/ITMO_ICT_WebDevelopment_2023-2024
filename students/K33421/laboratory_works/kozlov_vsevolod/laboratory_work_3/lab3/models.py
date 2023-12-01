@@ -1,6 +1,10 @@
 from django.db import models
 
-# Create your models here.
+from django.contrib.auth.models import  AbstractUser
+
+class UserModel(AbstractUser):
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'email']
+
 
 
 class TestModel(models.Model):
@@ -114,7 +118,7 @@ class ReaderBookHistory(models.Model):
     reader = models.ForeignKey('Reader',
                                related_name='books_history',
                                on_delete=models.RESTRICT)
-    start_date = models.DateField(blank=True)
+    start_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)
 
 
@@ -125,8 +129,7 @@ class ReaderRoomHistory(models.Model):
     room = models.ForeignKey('Room',
                              related_name='readers_history',
                              on_delete=models.RESTRICT)
-    # todo Убрать и перезапустить создание модели
-    start_date = models.DateField(auto_now_add=True, blank=True)
+    start_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)
 
 
