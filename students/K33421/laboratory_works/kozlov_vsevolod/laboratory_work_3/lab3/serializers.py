@@ -60,9 +60,16 @@ class StatisticsAgeSerializer(serializers.Serializer):
     after_20 = serializers.FloatField()
 
 
-class StatisticsSerializer(serializers.Serializer):
+class StatisticsLibrarySerializer(serializers.Serializer):
     books_taken = serializers.IntegerField()
     new_readers = serializers.IntegerField()
+
+
+class StatisticsRoomSerializer(StatisticsLibrarySerializer):
+    name = serializers.CharField()
+
+
+
 
 class TestWarriorSerializer(serializers.Serializer):
     name = serializers.CharField()

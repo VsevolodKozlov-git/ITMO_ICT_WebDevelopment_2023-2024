@@ -129,7 +129,7 @@ class StatisticsAgeApiView(ApiViewSingleObject):
 
 
 class StatisticsLibraryApiView(ApiViewSingleObject):
-    serializer_class = serializers.StatisticsSerializer
+    serializer_class = serializers.StatisticsLibrarySerializer
 
     def get_object_for_get(self):
         qs_reader = filters.ReaderRegistrationDateRangeFilter(self.request.GET).qs
@@ -141,35 +141,36 @@ class StatisticsLibraryApiView(ApiViewSingleObject):
 
 
 class StatisticsRoomApiView(ApiViewSingleObject):
-    serializer_class = serializers.StatisticsSerializer
+    serializer_class = serializers.StatisticsRoomSerializer
     queryset = models.Room.objects.all()
 
     def get_object_for_get(self):
+        room = self.get_object()
+
         qs_book_taken = filters.BookTakenDateRangeFilter(
             self.request.GET
         ).qs
         books_taken = qs_book_taken.count()
-        room = self.get_object()
+
+
         qs_reader_history = room.readers_history
         qs_reader_history = filters.RoomRegistrationDateRangeFilter(
             self.request.GET,
             queryset=qs_reader_history
         ).qs
         new_readers = qs_reader_history.count()
-        return {'books_taken': books_taken, 'new_readers': new_readers}
+
+        return {'name': room.name, 'books_taken': books_taken, 'new_readers': new_readers}
 
 
-class StatisticsRoomListApiView(views.APIView):
-    def get(self, request):
+class StatisticsRoomListApiView(StatisticsRoomApiView):
+    def get(self, request, *args, **kwargs):
         room_stats = []
         for _id in models.Room.objects.values_list('id', flat=True):
-            room_stat = StatisticsRoomApiView(lookup_url_kwarg=_id)
-            room_stat.lookup_url_kwarg = 'pk'
-            room_stat.kwargs = {'pk': _id}
-            room_stat.request = request
-            room_stat = room_stat.get_object_for_get()
+            self.kwargs = {'pk': _id}
+            room_stat = self.get_object_for_get()
             room_stats.append(room_stat)
-        serialized = serializers.StatisticsSerializer(room_stats, many=True)
+        serialized = serializers.StatisticsRoomSerializer(room_stats, many=True)
         return Response(serialized.data)
 
 
