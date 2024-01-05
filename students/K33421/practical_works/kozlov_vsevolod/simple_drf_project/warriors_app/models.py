@@ -47,4 +47,3 @@ class SkillOfWarrior(models.Model):
    warrior = models.ForeignKey('Warrior',related_name='warrior_skill', verbose_name='Воин', on_delete=models.CASCADE)
    level = models.IntegerField(verbose_name='Уровень освоения умения')
 
-

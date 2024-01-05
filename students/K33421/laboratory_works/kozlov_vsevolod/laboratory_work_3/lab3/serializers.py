@@ -2,12 +2,11 @@ from rest_framework import serializers
 from lab3 import models
 
 
-
-
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Author
         exclude = ['id']
+
 
 class BookSerializer(serializers.ModelSerializer):
     section = serializers.StringRelatedField(read_only=True)
@@ -64,6 +63,10 @@ class StatisticsAgeSerializer(serializers.Serializer):
 class StatisticsSerializer(serializers.Serializer):
     books_taken = serializers.IntegerField()
     new_readers = serializers.IntegerField()
+
+class TestWarriorSerializer(serializers.Serializer):
+    name = serializers.CharField()
+    race = serializers.CharField()
 
 
 

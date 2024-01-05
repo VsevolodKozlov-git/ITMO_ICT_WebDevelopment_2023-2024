@@ -175,3 +175,12 @@ class BookInstanceCreateView(generics.CreateAPIView):
 
 class BookCreateView(generics.CreateAPIView):
     serializer_class = serializers.BookCreateSerializer
+
+
+class TestWarriorApi(generics.ListAPIView):
+    serializer_class = serializers.TestWarriorSerializer
+
+    def get_queryset(self):
+        warriors = [{'name': 'Seva', 'race': 'dwarf'},
+                    {'name': 'Koly', 'race': 'human'}]
+        return warriors

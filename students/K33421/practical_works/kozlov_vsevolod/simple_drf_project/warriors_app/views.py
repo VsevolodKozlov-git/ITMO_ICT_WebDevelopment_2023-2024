@@ -2,13 +2,13 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework import permissions
-from warriors_app import serializers, models
+from warriors_app import serializers, models, filters
 
 
 
 class WarriorAPIView(APIView):
     def get(self, request):
-        warriors_query = models.Warrior.objects.all()
+        warriors_query = filters.WarriorNameFilter(request.GET).qs
         warriors_serialized = serializers.WarriorSlug(warriors_query,
                                                       many=True)
         return Response({'warriors': warriors_serialized.data}, status=200)
@@ -20,9 +20,11 @@ class WarriorAuthenticatedOnly(generics.ListAPIView):
 
 
 class WarriorWithProfessionView(generics.ListAPIView):
-    serializer_class = serializers.WarriorProfessionSerializer
-    queryset = models.Warrior.objects.all()
+    serializer_class = serializers.WarriorSkillSerializer
+    filterset_class = filters.WarriorNameFilter
 
+    def get_queryset(self):
+        return models.Warrior.objects.filter(race='s')
 
 
 class WarriorWithSkillView(generics.ListAPIView):
