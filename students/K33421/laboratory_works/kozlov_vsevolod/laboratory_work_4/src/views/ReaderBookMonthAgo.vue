@@ -1,11 +1,11 @@
 <template>
-$END$
+  <h1>Список пользователей, которые взяли книгу больше месяца назад</h1>
+  <ReaderListGet :url="url"/>
 </template>
 
-<script>
-export default {
-name: "ReaderBookMonthAgo"
-}
+<script setup>
+import ReaderListGet from "@/components/ReaderListGet"
+const url = "http://127.0.0.1:8000/lab3/reader/book_month_ago"
 </script>
 
 <style scoped>
