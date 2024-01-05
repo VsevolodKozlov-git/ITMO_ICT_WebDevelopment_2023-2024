@@ -33,7 +33,7 @@ class BookInstanceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.BookInstance
-        exclude = ['id']
+        fields = '__all__'
 
 
 class BookInstanceCreateSerializer(serializers.ModelSerializer):

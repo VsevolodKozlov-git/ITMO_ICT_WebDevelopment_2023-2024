@@ -159,6 +159,20 @@ class StatisticsRoomApiView(ApiViewSingleObject):
         return {'books_taken': books_taken, 'new_readers': new_readers}
 
 
+class StatisticsRoomListApiView(views.APIView):
+    def get(self, request):
+        room_stats = []
+        for _id in models.Room.objects.values_list('id', flat=True):
+            room_stat = StatisticsRoomApiView(lookup_url_kwarg=_id)
+            room_stat.lookup_url_kwarg = 'pk'
+            room_stat.kwargs = {'pk': _id}
+            room_stat.request = request
+            room_stat = room_stat.get_object_for_get()
+            room_stats.append(room_stat)
+        serialized = serializers.StatisticsSerializer(room_stats, many=True)
+        return Response(serialized.data)
+
+
 class ReaderCreateApiView(generics.CreateAPIView):
     serializer_class = serializers.ReaderSerializer
     queryset = models.Reader.objects.all()
@@ -175,6 +189,13 @@ class BookInstanceCreateView(generics.CreateAPIView):
 
 class BookCreateView(generics.CreateAPIView):
     serializer_class = serializers.BookCreateSerializer
+
+
+class BookInstanceListApi(generics.ListAPIView):
+    serializer_class = serializers.BookInstanceSerializer
+    queryset = models.BookInstance.objects.all()
+
+
 
 
 class TestWarriorApi(generics.ListAPIView):
