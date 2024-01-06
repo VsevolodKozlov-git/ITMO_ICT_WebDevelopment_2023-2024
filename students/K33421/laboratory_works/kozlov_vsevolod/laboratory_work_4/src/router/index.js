@@ -2,6 +2,10 @@ import {createRouter, createWebHistory} from "vue-router"
 import ReaderRareBooks from "@/views/ReaderRareBooks";
 import ReaderOutdated from "@/views/ReaderOutdated"
 import ReaderBookMonthAgo from "@/views/ReaderBookMonthAgo"
+import ReaderCreate from "@/views/ReaderCreate"
+import Statistics from "@/views/Statistic"
+import BookInstanceList from "@/views/BookInstanceList"
+import TestPage from "@/views/TestPage";
 
 const routes = [
     {
@@ -15,6 +19,22 @@ const routes = [
     {
         path: '/reader/book_month_ago',
         component: ReaderBookMonthAgo
+    },
+    {
+        path: '/reader/create',
+        component: ReaderCreate
+    },
+    {
+        path: '/statistics',
+        component: Statistics
+    },
+    {
+        path: '/book_instance/list',
+        component: BookInstanceList
+    },
+    {
+        path:'/test_page',
+        component: TestPage
     }
 ]
 

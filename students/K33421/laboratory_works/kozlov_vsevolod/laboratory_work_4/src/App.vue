@@ -5,6 +5,13 @@
   <br>
   <router-link to="/reader/book_month_ago">BookMonthAgo</router-link>
   <br>
+  <router-link to="/reader/create">Create Reader</router-link>
+  <br>
+  <router-link to="/statistics">Statistics</router-link>
+  <br>
+  <router-link to="/book_instance/list">Book list</router-link>
+  <br>
+
   <router-view></router-view>
 </template>
 
