@@ -184,6 +184,9 @@ class BookInstanceRemoveApiView(generics.RetrieveDestroyAPIView):
     queryset = models.BookInstance.objects.all()
     serializer_class = serializers.BookInstanceSerializer
 
+class BookInstanceUpdateApiView(generics.UpdateAPIView):
+    queryset = models.Book.objects.all()
+    serializer_class = serializers.BookInstanceUpdateSerializer
 
 class BookInstanceCreateView(generics.CreateAPIView):
     serializer_class = serializers.BookInstanceCreateSerializer

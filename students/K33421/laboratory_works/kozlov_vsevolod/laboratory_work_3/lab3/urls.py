@@ -17,6 +17,7 @@ urlpatterns = [
     path('statistics/library', views.StatisticsLibraryApiView.as_view(), name='statistics_library'),
     path('book_instance/list', views.BookInstanceListApi.as_view(), name='book_instance_list'),
     path('book_instance/remove/<int:pk>', views.BookInstanceRemoveApiView.as_view(), name='book_instance_remove'),
+    path('book_instance/update/<int:pk>', views.BookInstanceUpdateApiView.as_view()),
     path('book_instance/create', views.BookInstanceCreateView.as_view(), name='book_instance_create'),
     path('book/create', views.BookCreateView.as_view(), name='book_create'),
     path('warriors/list', views.TestWarriorApi.as_view(), name='warrior/list')

@@ -15,7 +15,7 @@ class BookSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Book
-        exclude = ['rooms', 'id']
+        exclude = ['rooms']
 
 
 class BookCreateSerializer(serializers.ModelSerializer):
@@ -42,6 +42,10 @@ class BookInstanceCreateSerializer(serializers.ModelSerializer):
         exclude = ['id']
 
 
+class BookInstanceUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.BookInstance
+        exclude = ['book', 'id']
 class ReaderSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Reader
