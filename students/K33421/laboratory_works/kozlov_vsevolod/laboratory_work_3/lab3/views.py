@@ -84,7 +84,7 @@ class ReaderBookMonthAgoApi(generics.ListAPIView):
 
 
 class StatisticsEducationApiView(ApiViewSingleObject):
-    permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (permissions.IsAuthenticated,)
     serializer_class = serializers.StatisticsEducationSerializer
 
 
@@ -145,13 +145,14 @@ class StatisticsRoomApiView(ApiViewSingleObject):
     queryset = models.Room.objects.all()
 
     def get_object_for_get(self):
+        room_pk = self.kwargs[self.lookup_field]
         room = self.get_object()
 
         qs_book_taken = filters.BookTakenDateRangeFilter(
             self.request.GET
         ).qs
+        qs_book_taken = qs_book_taken.filter(book_instance__room__pk=room_pk)
         books_taken = qs_book_taken.count()
-
 
         qs_reader_history = room.readers_history
         qs_reader_history = filters.RoomRegistrationDateRangeFilter(
