@@ -94,13 +94,20 @@ class StatisticsEducationApiView(ApiViewSingleObject):
         active_users = len(active_qs)
         edu_stat_list = active_qs.values('education').annotate(cnt=dj_models.Count('id'))
         edu_code_to_title = dict(models.Reader.education_types)
+        educ_code_to_id = dict(models.Reader.education_to_id)
         res = {}
         for edu_stat in edu_stat_list:
             edu_code = edu_stat['education']
             cnt = edu_stat['cnt']
             edu_title = edu_code_to_title[edu_code]
-            res[edu_title] = round(cnt / active_users, 3)
-        return res
+            _id = educ_code_to_id[edu_code]
+            value = round(cnt / active_users, 3)
+            res[edu_title] = {
+                'value': value,
+                'id': _id
+            }
+
+        return {'valuesDict': res}
 
 
 
@@ -180,12 +187,12 @@ class ReaderCreateApiView(generics.CreateAPIView):
     queryset = models.Reader.objects.all()
 
 
-class BookInstanceRemoveApiView(generics.RetrieveDestroyAPIView):
+class BookInstanceRetrieveDestroyApiView(generics.RetrieveDestroyAPIView):
     queryset = models.BookInstance.objects.all()
     serializer_class = serializers.BookInstanceSerializer
 
 class BookInstanceUpdateApiView(generics.UpdateAPIView):
-    queryset = models.Book.objects.all()
+    queryset = models.BookInstance.objects.all()
     serializer_class = serializers.BookInstanceUpdateSerializer
 
 class BookInstanceCreateView(generics.CreateAPIView):

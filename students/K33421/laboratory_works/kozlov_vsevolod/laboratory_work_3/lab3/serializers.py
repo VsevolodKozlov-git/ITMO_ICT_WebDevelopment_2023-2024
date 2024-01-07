@@ -53,10 +53,7 @@ class ReaderSerializer(serializers.ModelSerializer):
 
 
 class StatisticsEducationSerializer(serializers.Serializer):
-    degree = serializers.FloatField()
-    higher = serializers.FloatField()
-    middle = serializers.FloatField()
-    beginner = serializers.FloatField()
+    valuesDict = serializers.DictField()
 
 
 class StatisticsAgeSerializer(serializers.Serializer):

@@ -10,11 +10,11 @@
       <h3 class="book_title" @click="book.visible = !book.visible">
         {{`"${book.title}" ${book.authors} ${book.year}`}}
       </h3>
-<!--      <button @click="book.visible = !book.visible">Экземпляры</button>-->
       <ul v-if="book.visible">
         <li v-for="instance in book.instances">
           {{`код: ${instance.code}; качество:${instance.quality}; зал:${instance.room}`}}
           <button @click="deleteInstance(instance.id)">Удалить</button>
+          <button @click="goToUpdatePage(instance.id)">Изменить</button>
         </li>
       </ul>
     </div>
@@ -25,6 +25,7 @@
 <script setup>
 import {onMounted, ref} from "vue";
 import {fetchData, deleteData} from "@/tools";
+import router from "@/router";
 
 const fileName = 'BookInstancesList.vue'
 const bookDict = ref({})
@@ -82,7 +83,9 @@ function deleteInstance(instanceId){
   }
 }
 
-// todo put method
+function goToUpdatePage(instanceId){
+  router.push(`/book_instance/update/${instanceId}`)
+}
 
 onMounted(async()=>{
   await getBookInstances()

@@ -4,8 +4,12 @@ import ReaderOutdated from "@/views/ReaderOutdated"
 import ReaderBookMonthAgo from "@/views/ReaderBookMonthAgo"
 import ReaderCreate from "@/views/ReaderCreate"
 import Statistics from "@/views/Statistic"
+import TestPage from "@/views/TestPage"
 import BookInstanceList from "@/views/BookInstanceList"
-import TestPage from "@/views/TestPage";
+import BookInstanceUpdate from "@/views/BookInstanceUpdate"
+import UserLogin from "@/views/UserLogin"
+import UserUpdate from "@/views/UserUpdate"
+import UserRegistration from "@/views/UserRegistration"
 
 const routes = [
     {
@@ -33,8 +37,24 @@ const routes = [
         component: BookInstanceList
     },
     {
-        path:'/test_page',
+        path:'/book_instance/update/:pk',
+        component: BookInstanceUpdate
+    },
+    {
+        path: '/test_page',
         component: TestPage
+    },
+    {
+        path: '/user/login',
+        component: UserLogin
+    },
+    {
+        path: '/user/update',
+        component: UserUpdate
+    },
+    {
+        path: '/user/registration',
+        component: UserRegistration
     }
 ]
 

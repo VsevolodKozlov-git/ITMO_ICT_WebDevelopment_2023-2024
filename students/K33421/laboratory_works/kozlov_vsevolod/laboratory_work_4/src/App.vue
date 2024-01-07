@@ -11,6 +11,12 @@
   <br>
   <router-link to="/book_instance/list">Book list</router-link>
   <br>
+  <router-link to="/user/login">User login</router-link>
+  <br>
+  <router-link to="/user/update">User update</router-link>
+  <br>
+  <router-link to="/user/registration">User registration</router-link>
+  <br>
 
   <router-view></router-view>
 </template>

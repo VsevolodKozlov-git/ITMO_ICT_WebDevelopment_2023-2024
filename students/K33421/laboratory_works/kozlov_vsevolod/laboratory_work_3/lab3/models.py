@@ -82,10 +82,18 @@ class Room(models.Model):
 
 
 class Reader(models.Model):
-    education_types = (('b', 'beginner'),
-                       ('m', 'middle'),
-                       ('h', 'higher'),
-                       ('d', 'degree'))
+    education_types = (('b', 'Начальное'),
+                       ('m', 'Среднее'),
+                       ('h', 'Высшее'),
+                       ('d', 'Ученая степень'),
+                       ('', 'Нет данных'))
+    education_to_id = (
+        ('b', 0),
+        ('m', 1),
+        ('h', 2),
+        ('d', 3),
+        ('', 4)
+    )
 
     reader_number= models.CharField(max_length=10)
     registration_date=models.DateField()

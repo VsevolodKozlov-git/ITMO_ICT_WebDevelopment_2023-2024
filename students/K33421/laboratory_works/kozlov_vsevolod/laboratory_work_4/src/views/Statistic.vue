@@ -12,10 +12,9 @@
   <h2>Образование посетителей</h2>
   <div v-if="educationStat">
     <ul>
-      <li>Начальное: {{educationStat.beginner}}</li>
-      <li>Среднее: {{educationStat.middle}}</li>
-      <li>Высшее: {{educationStat.higher}}</li>
-      <li>Ученая степень: {{educationStat.degree}}</li>
+      <li v-for="(value, key) in educationStat.valuesDict" :key="value.id">
+        {{key}}:{{value.value}}
+      </li>
     </ul>
   </div>
 
@@ -97,6 +96,8 @@ async function fetchVarData(){
       config
   )
 }
+
+
 
 watch([dateAfter, dateBefore], async() => await fetchVarData())
 

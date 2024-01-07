@@ -1,16 +1,7 @@
 <template>
   <h1>Добавление читателя</h1>
   <form @submit.prevent>
-    <div v-for="field in reader">
-      <div class="label">{{field.label}}</div>
-      <input
-          v-model="field.value"
-          class="input"
-          :type="field.type">
-      <div v-if="field.error_msg" class="error">
-        {{field.error_msg}}
-      </div>
-    </div>
+    <FormInputs :fields-arr="reader"/>
     <button class="btn" @click="createReader">Cоздать</button>
   </form>
   <div v-if="userAdded">
@@ -21,32 +12,33 @@
 <script setup>
 import {ref} from "vue";
 import {postData} from "@/tools";
+import FormInputs from "@/components/FormInputs"
 
 const filename = 'ReaderCreate'
 
-// const reader = ref({
-//   reader_number: {value: '', error_msg: '', type: 'text', label: 'Читательский номер'},
-//   registration_date: {value: '', error_msg: '', type: 'date', label: 'Дата регистрации'},
-//   active: {value: '', error_msg: '', type: 'checkbox', label: 'Активен'},
-//   first_name : {value: '', error_msg: '', type: 'text', label: 'Имя'},
-//   last_name: {value: '', error_msg: '', type: 'text', label: 'Фамилия'},
-//   passport_number: {value: '', error_msg: '', type: 'text', label: 'Номер паспорта'},
-//   birth_date: {value: '', error_msg: '', type: 'date', label: 'Дата рождения'},
-//   address: {value: '', error_msg: '', type: 'text', label: 'Адрес'},
-//   mobile_number: {value: '', error_msg: '', type: 'text', label: 'Мобильный номер без +7'}
-// })
-
 const reader = ref({
-  reader_number: {value: '0716990', error_msg: '', type: 'text', label: 'Читательский номер'},
-  registration_date: {value: '2024-01-06', error_msg: '', type: 'date', label: 'Дата регистрации'},
-  active: {value: true, error_msg: '', type: 'checkbox', label: 'Активен'},
-  first_name : {value: 'Имя', error_msg: '', type: 'text', label: 'Имя'},
-  last_name: {value: 'Фамилия', error_msg: '', type: 'text', label: 'Фамилия'},
-  passport_number: {value: '0711000333', error_msg: '', type: 'text', label: 'Номер паспорта'},
-  birth_date: {value: '2002-11-23', error_msg: '', type: 'date', label: 'Дата рождения'},
-  address: {value: 'Доваторцев, 23', error_msg: '', type: 'text', label: 'Адрес'},
-  mobile_number: {value: '8005553535', error_msg: '', type: 'text', label: 'Мобильный номер без +7'}
+  reader_number: {value: '', error_msg: '', type: 'text', label: 'Читательский номер'},
+  registration_date: {value: '', error_msg: '', type: 'date', label: 'Дата регистрации'},
+  active: {value: '', error_msg: '', type: 'checkbox', label: 'Активен'},
+  first_name : {value: '', error_msg: '', type: 'text', label: 'Имя'},
+  last_name: {value: '', error_msg: '', type: 'text', label: 'Фамилия'},
+  passport_number: {value: '', error_msg: '', type: 'text', label: 'Номер паспорта'},
+  birth_date: {value: '', error_msg: '', type: 'date', label: 'Дата рождения'},
+  address: {value: '', error_msg: '', type: 'text', label: 'Адрес'},
+  mobile_number: {value: '', error_msg: '', type: 'text', label: 'Мобильный номер без +7'}
 })
+
+// const reader = ref({
+//   reader_number: {value: '0716990', error_msg: '', type: 'text', label: 'Читательский номер'},
+//   registration_date: {value: '2024-01-06', error_msg: '', type: 'date', label: 'Дата регистрации'},
+//   active: {value: true, error_msg: '', type: 'checkbox', label: 'Активен'},
+//   first_name : {value: 'Имя', error_msg: '', type: 'text', label: 'Имя'},
+//   last_name: {value: 'Фамилия', error_msg: '', type: 'text', label: 'Фамилия'},
+//   passport_number: {value: '0711000333', error_msg: '', type: 'text', label: 'Номер паспорта'},
+//   birth_date: {value: '2002-11-23', error_msg: '', type: 'date', label: 'Дата рождения'},
+//   address: {value: 'Доваторцев, 23', error_msg: '', type: 'text', label: 'Адрес'},
+//   mobile_number: {value: '8005553535', error_msg: '', type: 'text', label: 'Мобильный номер без +7'}
+// })
 
 const userAdded = ref(false);
 
