@@ -75,4 +75,8 @@ export function formDictToData(formDict){
     return data
 }
 
-
+export function removerErrorMsgs(formDict){
+    for (const key in formDict.value){
+        formDict.value[key].error_msg = ''
+    }
+}

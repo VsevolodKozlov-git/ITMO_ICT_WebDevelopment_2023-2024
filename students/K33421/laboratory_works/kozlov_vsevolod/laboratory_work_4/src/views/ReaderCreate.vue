@@ -1,8 +1,8 @@
 <template>
-  <h1>Добавление читателя</h1>
-  <form @submit.prevent>
+  <h2>Добавление читателя</h2>
+  <form @submit.prevent class="container">
     <FormInputs :fields-arr="reader"/>
-    <button class="btn" @click="createReader">Cоздать</button>
+    <button class="btn btn-primary" @click="createReader">Cоздать</button>
   </form>
   <div v-if="userAdded">
     Пользователь успешно добавлен

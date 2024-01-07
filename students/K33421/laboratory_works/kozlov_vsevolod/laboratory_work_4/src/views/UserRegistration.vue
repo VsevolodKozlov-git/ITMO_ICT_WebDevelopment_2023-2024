@@ -1,8 +1,8 @@
 <template>
-  <form @submit.prevent>
+  <form @submit.prevent class="container">
     <FormInputs :fields-arr="formDict"/>
     <ListErrorMsgs :error-msgs="formErrorMsgs"/>
-    <button @click="post">Войти</button>
+    <button class="btn btn-primary"  @click="post">Войти</button>
     <div v-if="formSuccess">
       Вы успешно зарегистрировались
     </div>
@@ -13,8 +13,9 @@
 import {ref} from "vue";
 import FormInputs from "@/components/FormInputs"
 import axios from "axios";
-import {formDictToData, userSendErrorCatch} from "@/tools";
+import {formDictToData, userSendErrorCatch, removerErrorMsgs} from "@/tools";
 import ListErrorMsgs from "@/components/ListErrorMsgs"
+
 
 const formDict = ref({
   username: {value: '', error_msg: '', type: 'text', label: 'Username'},
@@ -40,6 +41,7 @@ function post(){
   ).then((response) =>{
     if (response){
       formSuccess.value = true
+      removerErrorMsgs(formDict)
     }
   })
 }

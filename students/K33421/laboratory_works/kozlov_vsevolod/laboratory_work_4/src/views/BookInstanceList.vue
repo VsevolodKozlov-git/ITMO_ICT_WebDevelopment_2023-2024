@@ -1,25 +1,46 @@
 <template>
-  <h1>Экземлпяры книг</h1>
+  <div class="container">
 
-  <div>
-    Нажмите на книгу, экземпляры которой вы хотите просмотреть
-  </div>
+    <div class="card" v-for="(book, key, id) in bookDict">
+      <div class="card-header">
+        <button class="btn btn-light" data-bs-toggle="collapse" :data-bs-target="`#collapseUser${id}`">
+          {{`"${book.title}" ${book.authors} ${book.year}`}}
+        </button>
+      </div>
+      <div :id="`collapseUser${id}`" class="collapse" data-bs-parent="#accordionExample">
+        <div class="card-body">
+          <table class="table table-responsive">
+            <thead>
+            <tr>
+              <th scope="col">Код</th>
+              <th scope="col">Качество</th>
+              <th scope="col">Зал</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="instance in book.instances">
+              <td>{{instance.code}}</td>
+              <td>{{instance.quality}}</td>
+              <td>{{instance.room}}</td>
+              <td>
+                <button class="btn btn-light" @click="goToUpdatePage(instance.id)">Изменить</button>
+              </td>
+              <td>
+                <button class="btn btn-light" @click="deleteInstance(instance.id)">Удалить</button>
+              </td>
 
-  <div v-if="bookDict">
-    <div v-for="book in bookDict" :key="book">
-      <h3 class="book_title" @click="book.visible = !book.visible">
-        {{`"${book.title}" ${book.authors} ${book.year}`}}
-      </h3>
-      <ul v-if="book.visible">
-        <li v-for="instance in book.instances">
-          {{`код: ${instance.code}; качество:${instance.quality}; зал:${instance.room}`}}
-          <button @click="deleteInstance(instance.id)">Удалить</button>
-          <button @click="goToUpdatePage(instance.id)">Изменить</button>
-        </li>
-      </ul>
+            </tr>
+            </tbody>
+
+          </table>
+
+        </div>
+      </div>
     </div>
-  </div>
 
+  </div>
 </template>
 
 <script setup>

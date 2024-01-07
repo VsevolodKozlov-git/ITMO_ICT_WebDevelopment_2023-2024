@@ -1,36 +1,41 @@
 <template>
-  <router-link to="/reader/rare_books">Rare books</router-link>
-  <br>
-  <router-link to="/reader/outdated">Outdated</router-link>
-  <br>
-  <router-link to="/reader/book_month_ago">BookMonthAgo</router-link>
-  <br>
-  <router-link to="/reader/create">Create Reader</router-link>
-  <br>
-  <router-link to="/statistics">Statistics</router-link>
-  <br>
-  <router-link to="/book_instance/list">Book list</router-link>
-  <br>
-  <router-link to="/user/login">User login</router-link>
-  <br>
-  <router-link to="/user/update">User update</router-link>
-  <br>
-  <router-link to="/user/registration">User registration</router-link>
-  <br>
-
+  <b-navbar toggleable="lg" type="light" variant="light">
+    <b-navbar-brand href="#">LibraryApp</b-navbar-brand>
+    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+    <b-collapse id="nav-collapse" is-nav>
+      <b-navbar-nav>
+        <b-nav-item-dropdown text="Reader" right>
+          <b-dropdown-item to="/reader/rare_books">With rare Books</b-dropdown-item>
+          <b-dropdown-item to="/reader/outdated">With outdated</b-dropdown-item>
+          <b-dropdown-item to="/reader/book_month_ago">Book a Month Ago</b-dropdown-item>
+          <b-dropdown-item to="/reader/create">Create Reader</b-dropdown-item>
+        </b-nav-item-dropdown>
+        <b-nav-item to="/book_instance/list">Book Instances</b-nav-item>
+        <b-nav-item to="/statistics">Statistics</b-nav-item>
+        <b-nav-item-dropdown text="User" right>
+          <b-dropdown-item to="/user/login">User Login</b-dropdown-item>
+          <b-dropdown-item to="/user/update">User Update</b-dropdown-item>
+          <b-dropdown-item to="/user/registration">User Registration</b-dropdown-item>
+        </b-nav-item-dropdown>
+      </b-navbar-nav>
+    </b-collapse>
+  </b-navbar>
   <router-view></router-view>
 </template>
 
 <script setup>
+import { BNavbar, BNavbarBrand, BNavbarNav, BNavbarToggle, BCollapse, BNavItemDropdown, BDropdownItem } from 'bootstrap-vue-3'
 
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  <style scoped>
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  .navbar {
+    margin-bottom: 0;
+  }
 </style>
+

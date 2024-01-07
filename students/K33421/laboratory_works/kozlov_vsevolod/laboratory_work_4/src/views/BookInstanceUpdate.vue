@@ -1,6 +1,6 @@
 <template>
-  <h1>Изменение экземпляра книги</h1>
-  <form @submit.prevent>
+  <h2>Изменение экземпляра книги</h2>
+  <form @submit.prevent class="container">
     <FormInputs :fields-arr="instanceForm"></FormInputs>
     <button @click="updateBookInstance">Изменить</button>
     <div v-if="instanceUpdated">
